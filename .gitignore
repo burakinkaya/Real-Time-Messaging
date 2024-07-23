@@ -1,0 +1,10 @@
+# dependencies
+/node_modules
+/.pnp
+
+# local env files
+.env
+.env*
+
+# vscode
+/.vscode
