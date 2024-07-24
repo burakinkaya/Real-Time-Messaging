@@ -11,14 +11,6 @@ const messageSchema = new Schema({
     ref: "User",
     required: true,
   },
-  createdAt: {
-    type: Date,
-    default: Date.now,
-  },
-  updatedAt: {
-    type: Date,
-    default: Date.now,
-  },
   deletedFrom: [
     {
       type: Schema.Types.ObjectId,

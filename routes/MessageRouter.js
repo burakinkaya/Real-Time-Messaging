@@ -23,9 +23,9 @@ router.post("/messages", async (req, res) => {
     await message.save();
     const populatedMessage = await message.populate("owner", "username").execPopulate();
     broadcastMessage({ type: "new", message: populatedMessage });
-    res.status(201).json(populatedMessage);
+    res.status(201).json({ message: "Message sent successfully", data: populatedMessage });
   } catch (error) {
-    res.status(400).json({ message: error.message });
+    res.status(500).json({ message: "Error sending message: " + error.message });
   }
 });
 
@@ -41,12 +41,11 @@ router.get("/messages", async (req, res) => {
 router.post("/messages/deleteFromCurrentUser/:id", async (req, res) => {
   const { userId } = req.body;
   const messageId = req.params.id;
-
   const messageIdObject = mongoose.Types.ObjectId(messageId);
   const userIdObject = mongoose.Types.ObjectId(userId);
 
   if (!mongoose.Types.ObjectId.isValid(userIdObject) || !mongoose.Types.ObjectId.isValid(messageIdObject)) {
-    return res.status(400).json({ message: "Invalid userId or messageId" });
+    return res.status(422).json({ message: "Invalid userId or messageId" });
   }
 
   try {
@@ -60,10 +59,10 @@ router.post("/messages/deleteFromCurrentUser/:id", async (req, res) => {
       return res.status(404).json({ message: "Message not found" });
     }
     broadcastMessage({ type: "deleteone", message });
-    res.json(message);
+    res.json({ message: "Message is deleted for current user", data: message });
   } catch (error) {
     console.error("Error updating message:", error);
-    res.status(500).json({ message: error.message });
+    res.status(500).json({ message: "Error deleting message: " + error.message });
   }
 });
 
@@ -75,7 +74,7 @@ router.patch("/messages/deleteForEveryone/:id", async (req, res) => {
     const message = await Message.findByIdAndUpdate(req.params.id, update, { new: true });
     if (!message) return res.status(404).json({ message: "Message not found" });
     broadcastMessage({ type: "deleteall", id: req.params.id });
-    res.json(message);
+    res.json({ message: "Message is deleted for all users", data: message });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -84,12 +83,11 @@ router.patch("/messages/deleteForEveryone/:id", async (req, res) => {
 router.patch("/messages/edit/:id", async (req, res) => {
   try {
     const messageId = req.params.id;
-    const messageIdObject = mongoose.Types.ObjectId(messageId);
     const update = { text: req.body.text };
-    const message = await Message.findByIdAndUpdate(messageIdObject, update, { new: true });
+    const message = await Message.findByIdAndUpdate(messageId, update, { new: true });
     if (!message) return res.status(404).json({ message: "Message not found" });
     broadcastMessage({ type: "update", message });
-    res.json(message);
+    res.json({ message: "Message is updated", data: message });
   } catch (error) {
     console.error("Error updating message:", error);
     res.status(500).json({ message: error.message });

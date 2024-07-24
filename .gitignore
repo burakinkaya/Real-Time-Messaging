@@ -1,10 +1,8 @@
-# dependencies
 /node_modules
-/.pnp
+.DS_Store
 
-# local env files
+
 .env
 .env*
 
-# vscode
 /.vscode
