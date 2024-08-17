@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chats</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="chat-container">
+      <div class="sidebar">
+        <div class="header">
+          <h2>Chats</h2>
+          <button id="new-chat-btn">+ New Chat</button>
+        </div>
+        <div id="chat-list" class="chat-list"></div>
+      </div>
+      <div class="main-content">
+        <div class="messages-container" id="messages-container" style="display: none">
+          <div class="messages-header">
+            <div id="chat-username"></div>
+          </div>
+          <div class="messages-list"></div>
+          <form class="message-form">
+            <input type="text" id="message-input" placeholder="Type a message" required />
+            <button type="submit" id="submit-button">Send</button>
+          </form>
+          <button id="edit-confirm-button" style="display: none">Confirm Edit</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="context-menu" class="context-menu">
+      <ul class="context-menu-list"></ul>
+    </div>
+
+    <div id="userListModal" class="modal">
+      <div class="modal-content">
+        <span class="close" id="closeUserListModal">&times;</span>
+        <h2>Select a user to start a chat</h2>
+        <ul id="userList"></ul>
+      </div>
+    </div>
+
+    <script src="chats.js"></script>
+  </body>
+</html>

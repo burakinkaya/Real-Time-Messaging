@@ -4,8 +4,9 @@ const router = express.Router();
 const userRouter = require("./UserRouter");
 const messageRouter = require("./MessageRouter");
 
-router.use("/users", userRouter);
+console.log("API Routes loaded");
 
-router.use("/messages", messageRouter);
+router.use("/", userRouter);
+router.use("/", messageRouter);
 
 module.exports = router;

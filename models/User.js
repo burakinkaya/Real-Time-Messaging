@@ -8,6 +8,10 @@ const userSchema = new Schema({
     unique: true,
     trim: true,
   },
+  dhPublicKey: {
+    type: String,
+    required: true,
+  },
 });
 
 const User = mongoose.model("User", userSchema);

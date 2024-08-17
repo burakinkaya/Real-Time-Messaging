@@ -1,27 +1,37 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const messageSchema = new Schema({
-  text: {
-    type: String,
-    required: true,
-  },
-  owner: {
-    type: Schema.Types.ObjectId,
-    ref: "User",
-    required: true,
-  },
-  deletedFrom: [
-    {
+const messageSchema = new Schema(
+  {
+    text: {
+      type: String,
+      required: true,
+    },
+    owner: {
       type: Schema.Types.ObjectId,
       ref: "User",
+      required: true,
     },
-  ],
-  isDeleted: {
-    type: Boolean,
-    default: false,
+    receiver: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
+    deletedFrom: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "User",
+      },
+    ],
+    isDeleted: {
+      type: Boolean,
+      default: false,
+    },
   },
-});
+  {
+    timestamps: true,
+  }
+);
 
 const Message = mongoose.model("Message", messageSchema);
 
